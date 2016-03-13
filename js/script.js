@@ -1,111 +1,62 @@
-// Mixing jQuery and Node.js code in the same file? Yes please!
+$(function () {
 
-$(function(){
+    var W3CWebSocket = require('websocket').w3cwebsocket;
 
-var W3CWebSocket = require('websocket').w3cwebsocket;
+    var client = new W3CWebSocket('ws://localhost:8080/');
 
-var client = new W3CWebSocket('ws://localhost:8080/'/*, 'echo-protocol'*/);
+    var tbody = $('.table tbody')
 
-client.onerror = function() {
-    console.log('Connection Error');
-};
+    client.onerror = function () {
+        console.log('Connection Error');
+    };
 
-client.onopen = function() {
-    console.log('WebSocket Client Connected');
+    client.onopen = function () {
+        console.log('WebSocket Client Connected');
 
-    function sendNumber() {
-        if (client.readyState === client.OPEN) {
-            var number = Math.round(Math.random() * 0xFFFFFF);
-            client.send(number.toString());
-            setTimeout(sendNumber, 1000);
+        function sendNumber() {
+            if (client.readyState === client.OPEN) {
+                var number = Math.round(Math.random() * 0xFFFFFF);
+                client.send(number.toString());
+                setTimeout(sendNumber, 1000);
+            }
         }
-    }
-    sendNumber();
-};
 
-client.onclose = function() {
-    console.log('echo-protocol Client Closed');
-};
+        sendNumber();
+    };
 
-client.onmessage = function(e) {
-    if (typeof e.data === 'string') {
-        console.log("Received: '" + e.data + "'");
-    }
-};
+    client.onclose = function () {
+        console.log('echo-protocol Client Closed');
+    };
 
-//----------------------------------------------
-    // Display some statistics about this computer, using node's os module.
+    client.onmessage = function (e) {
+        if (typeof e.data === 'string') {
 
-    var os = require('os');
-    var prettyBytes = require('pretty-bytes');
+            var row = $('<tr></tr>');
 
-    $('.stats').append('Number of cpu cores: <span>' + os.cpus().length + '</span>');
-    $('.stats').append('Free memory: <span>' + prettyBytes(os.freemem())+ '</span>');
+            var col1 = $('<td></td>');
+            col1.text(e.data);
+            col1.appendTo(row);
 
-    // Electron's UI library. We will need it for later.
+            var col2 = $('<td>smb://10.1.6.1/descargas$/cemc/abril/fileX</td>');
+            col2.appendTo(row);
 
-    var shell = require('shell');
+            var col3 = $('<td>30 Mb</td>');
+            col3.appendTo(row);
 
+            var col4 = $('<td>13 03 2016</td>');
+            col4.appendTo(row);
 
-    // Fetch the recent posts on Tutorialzine.
+            row.appendTo(tbody);
+        }
+    };
 
-    var ul = $('.flipster ul');
+    var date = new Date();
+    $('.footer').append('<p>&copy; ' + date.getFullYear() + ' Rigoberto L. Salgado Reyes.</p>');
 
-    // The same-origin security policy doesn't apply to electron, so we can
-    // send ajax request to other sites. Let's fetch Tutorialzine's rss feed:
-/*
-    $.get('http://localhost:8080', function(response){
-
-        var rss = $(response);
-        var li = $('<li><img /><a target="_blank"></a></li>');
-        li.find('a').text(rss);
-        li.appendTo(ul);
-
-        // Find all articles in the RSS feed:
-
-        rss.find('item').each(function(){
-            var item = $(this);
-            
-            var content = item.find('encoded').html().split('</a></div>')[0]+'</a></div>';
-            var urlRegex = /(http|ftp|https):\/\/[\w\-_]+(\.[\w\-_]+)+([\w\-\.,@?^=%&amp;:/~\+#]*[\w\-\@?^=%&amp;/~\+#])?/g;
-
-            // Fetch the first image of the article.
-            var imageSource = content.match(urlRegex)[1];
-
-
-            // Create a li item for every article, and append it to the unordered list.
-
-            var li = $('<li><img /><a target="_blank"></a></li>');
-
-            li.find('a')
-                .attr('href', item.find('link').text())
-                .text(item.find("title").text());
-
-            li.find('img').attr('src', imageSource);
-
-            li.appendTo(ul);
-
-        });
-
-        // Initialize the flipster plugin.
-
-        $('.flipster').flipster({
-            style: 'carousel'
-        });
-
-        // When an article is clicked, open the page in the system default browser.
-        // Otherwise it would open it in the electron window which is not what we want.
-
-        $('.flipster').on('click', 'a', function (e) {
-
-            e.preventDefault();
-            
-            // Open URL with default browser.
-
-            shell.openExternal(e.target.href);
-
-        });
-
-    });*/
+    //var os = require('os');
+    //var prettyBytes = require('pretty-bytes');
+    //
+    //$('.stats').append('Number of cpu cores: <span>' + os.cpus().length + '</span>');
+    //$('.stats').append('Free memory: <span>' + prettyBytes(os.freemem()) + '</span>');
 
 });
