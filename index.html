@@ -7,12 +7,28 @@
 
     <meta name="description" content="">
     <meta name="author" content="">
-    <!--link rel="icon" href="../../favicon.ico"-->
+    <link rel="icon" href="./img/favicon.ico">
+
     <title>CIFS Synchronizer</title>
 
-    <link href="./css/bootstrap.min.css" rel="stylesheet">
+    <!-- LEAR HOW TO LOAD CSS FROM MODULES -->
+    <link href="./node_modules/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+
     <link href="./css/navbar.css" rel="stylesheet">
     <link rel="stylesheet" href="./css/styles.css">
+    <link rel="stylesheet" href="./css/theme.blue.css">
+
+    <script>window.$ = window.jQuery = require('jquery');</script>
+    <script>require('bootstrap');</script>
+    <script>require('tablesorter');</script>
+
+    <!-- LEAR HOW TO LOAD 'extras' folders FROM MODULES -->
+    <script src="./js/pager/jquery.tablesorter.pager.js"></script>
+
+    <script src="./js/pager-custom-controls.js"></script>
+    <script src="./js/pager-custom-controls-initialization.js"></script>
+    <script src="./js/websocket.js"></script>
+
 </head>
 <body>
 
@@ -49,33 +65,44 @@
     </nav>
 
     <div class="jumbotron">
-        <div class="input-group">
-            <span class="input-group-addon" id="basic-addon1">Filter</span>
-            <input type="text" class="form-control" placeholder="($1 not-equal 'aa') and ($2 equal 34)"
-                   aria-describedby="basic-addon1">
+        <div class="table-responsive">
+            <table class="table">
+                <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Path</th>
+                    <th>Size</th>
+                    <th>Date</th>
+                </tr>
+                </thead>
+                <tfoot>
+                    <tr>
+                        <td colspan="7">
+                            <div class="pager">
+                                <span class="center">
+                                    <span class="prev">
+                                        <img src="./img/prev.png"/> Prev&nbsp;
+                                    </span>
+                                    <span class="pagecount"></span>
+                                    &nbsp;<span class="next">Next
+                                        <img src="./img/next.png"/>
+                                    </span>
+                                </span>
+                            </div>
+                        </td>
+                    </tr>
+                </tfoot>
+                <tbody>
+                <!-- shared files -->
+                </tbody>
+            </table>
         </div>
-        <h5>
-            <div class="table-responsive">
-                <table class="table">
-                    <thead>
-                    <tr><th>Name</th><th>Path</th><th>Size</th><th>Date</th></tr>
-                    </thead>
-                    <tbody>
-                    <!-- files -->
-                    </tbody>
-                </table>
-            </div>
-        </h5>
     </div>
 
     <footer class="footer">
         <!-- copyrights -->
     </footer>
 </div> <!-- /container -->
-
-<script>window.$ = window.jQuery = require('./js/jquery.min.js');</script>
-<script src="./js/bootstrap.min.js"></script>
-<script src="./js/script.js"></script>
 
 </body>
 </html>

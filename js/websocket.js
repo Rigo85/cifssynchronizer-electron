@@ -4,7 +4,9 @@ $(function () {
 
     var client = new W3CWebSocket('ws://localhost:8080/');
 
-    var tbody = $('.table tbody')
+    var tbody = $('.table tbody');
+
+    var prettyBytes = require('pretty-bytes');
 
     client.onerror = function () {
         console.log('Connection Error');
@@ -40,23 +42,18 @@ $(function () {
             var col2 = $('<td>smb://10.1.6.1/descargas$/cemc/abril/fileX</td>');
             col2.appendTo(row);
 
-            var col3 = $('<td>30 Mb</td>');
+            var col3 = $('<td>' + prettyBytes(parseInt(e.data)) + '</td>');
             col3.appendTo(row);
 
             var col4 = $('<td>13 03 2016</td>');
             col4.appendTo(row);
 
             row.appendTo(tbody);
+
+            $('table').trigger('update');
         }
     };
 
     var date = new Date();
     $('.footer').append('<p>&copy; ' + date.getFullYear() + ' Rigoberto L. Salgado Reyes.</p>');
-
-    //var os = require('os');
-    //var prettyBytes = require('pretty-bytes');
-    //
-    //$('.stats').append('Number of cpu cores: <span>' + os.cpus().length + '</span>');
-    //$('.stats').append('Free memory: <span>' + prettyBytes(os.freemem()) + '</span>');
-
 });
