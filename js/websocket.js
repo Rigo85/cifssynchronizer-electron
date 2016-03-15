@@ -8,6 +8,8 @@ $(function () {
 
     var prettyBytes = require('pretty-bytes');
 
+    var dateFormat = require('dateformat');
+
     client.onerror = function () {
         console.log('Connection Error');
     };
@@ -45,12 +47,15 @@ $(function () {
             var col3 = $('<td>' + prettyBytes(parseInt(e.data)) + '</td>');
             col3.appendTo(row);
 
-            var col4 = $('<td>13 03 2016</td>');
+            var col4 = $('<td>' + dateFormat(new Date(parseInt(e.data) * 1000), 'yyyy-mm-dd hh:MM:ss TT') + '</td>');
             col4.appendTo(row);
 
             row.appendTo(tbody);
 
-            $('table').trigger('update');
+            var table = $('table');
+            table.trigger('update');
+            var sorting = [[3, 1]];
+            table.trigger("sorton", [sorting]);
         }
     };
 
