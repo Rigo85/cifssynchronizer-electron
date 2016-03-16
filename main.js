@@ -53,6 +53,8 @@ app.on('ready', function () {
 
     var menu = Menu.buildFromTemplate(application_menu);
 
+    mainWindow.webContents.openDevTools();
+
     Menu.setApplicationMenu(menu);
 
     mainWindow.on('closed', function () {

@@ -17,15 +17,15 @@ $(function () {
     client.onopen = function () {
         console.log('WebSocket Client Connected');
 
-        function sendNumber() {
-            if (client.readyState === client.OPEN) {
-                var number = Math.round(Math.random() * 0xFFFFFF);
-                client.send(number.toString());
-                setTimeout(sendNumber, 1000);
-            }
-        }
+        /*function sendNumber() {
+         if (client.readyState === client.OPEN) {
+         var number = Math.round(Math.random() * 0xFFFFFF);
+         client.send(number.toString());
+         setTimeout(sendNumber, 1000);
+         }
+         }
 
-        sendNumber();
+         sendNumber();*/
     };
 
     client.onclose = function () {
@@ -34,23 +34,27 @@ $(function () {
 
     client.onmessage = function (e) {
         if (typeof e.data === 'string') {
+            var rowData = JSON.parse(e.data);
 
-            var row = $('<tr></tr>');
+            var tableRow = $('<tr></tr>');
 
-            var col1 = $('<td></td>');
-            col1.text(e.data);
-            col1.appendTo(row);
+            var nameCol = $('<td></td>');
+            nameCol.text(rowData.name);
+            nameCol.appendTo(tableRow);
 
-            var col2 = $('<td>smb://10.1.6.1/descargas$/cemc/abril/fileX</td>');
-            col2.appendTo(row);
+            var pathCol = $('<td></td>');
+            pathCol.text(rowData.path);
+            pathCol.appendTo(tableRow);
 
-            var col3 = $('<td>' + prettyBytes(parseInt(e.data)) + '</td>');
-            col3.appendTo(row);
+            var sizeCol = $('<td>' + +'</td>');
+            sizeCol.text(prettyBytes(rowData.size));
+            sizeCol.appendTo(tableRow);
 
-            var col4 = $('<td>' + dateFormat(new Date(parseInt(e.data) * 1000), 'yyyy-mm-dd hh:MM:ss TT') + '</td>');
-            col4.appendTo(row);
+            var timeCol = $('<td>' + +'</td>');
+            timeCol.text(dateFormat(new Date(rowData.time), 'yyyy-mm-dd hh:MM:ss TT'));
+            timeCol.appendTo(tableRow);
 
-            row.appendTo(tbody);
+            tableRow.appendTo(tbody);
 
             var table = $('table');
             table.trigger('update');
@@ -59,6 +63,14 @@ $(function () {
         }
     };
 
-    var date = new Date();
-    $('.footer').append('<p>&copy; ' + date.getFullYear() + ' Rigoberto L. Salgado Reyes.</p>');
+    document.querySelector('#form-credentials').onsubmit = function (e) {
+        e.preventDefault();
+
+        client.send(JSON.stringify($('#form-credentials').serializeArray().reduce(function (obj, item) {
+            obj[item.name] = item.value;
+            return obj;
+        }, {})));
+    };
+
+    $('.footer').append('<p>&copy; ' + new Date().getFullYear() + ' Rigoberto L. Salgado Reyes.</p>');
 });

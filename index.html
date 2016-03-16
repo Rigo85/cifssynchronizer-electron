@@ -48,15 +48,15 @@
             </div>
 
             <div id="navbar" class="navbar-collapse collapse">
-                <form class="navbar-form navbar-right">
+                <form id="form-credentials" role="form" class="navbar-form navbar-right">
                     <div class="form-group">
-                        <input type="text" placeholder="smb://host/resource/" class="form-control">
+                        <input name="url" type="text" placeholder="smb://host/resource/" class="form-control">
                     </div>
                     <div class="form-group">
-                        <input type="text" placeholder="Domain\Username" class="form-control">
+                        <input name="user" type="text" placeholder="Domain\Username" class="form-control">
                     </div>
                     <div class="form-group">
-                        <input type="password" placeholder="Password" class="form-control">
+                        <input name="password" type="password" placeholder="Password" class="form-control">
                     </div>
                     <button type="submit" class="btn btn-success">Update</button>
                 </form>
