@@ -2,15 +2,31 @@ var app = require('app');
 var BrowserWindow = require('browser-window');
 var Menu = require('menu');
 var mainWindow = null;
+var spawn = require('child_process').spawn;
 
+var prc = spawn('java', ['-jar', '-Xmx512M', '-Dfile.encoding=utf8', 'backend/cifssynchronizer-clj-0.1.0-standalone.jar']);
+
+prc.stdout.setEncoding('utf8');
+
+prc.stdout.on('data', function (data) {
+    var str = data.toString();
+    var lines = str.split(/(\r?\n)/g);
+    console.log(lines.join(""));
+});
+
+prc.on('close', function (code) {
+    console.log('process exit code ' + code);
+});
 
 app.on('window-all-closed', function () {
     if (process.platform != 'darwin') {
         app.quit();
+        prc.kill();
     }
 });
 
 app.on('ready', function () {
+    console.log(prc.connected);
     mainWindow = new BrowserWindow({width: 1000, height: 625, icon: './img/icon.png'});
 
     mainWindow.loadURL('file://' + __dirname + '/index.html');

@@ -12,6 +12,8 @@ $(function () {
 
     client.onerror = function () {
         console.log('Connection Error');
+        var remote = require('remote');
+        remote.getCurrentWindow().reload();
     };
 
     client.onopen = function () {
