@@ -16,20 +16,10 @@ $(function () {
 
     client.onopen = function () {
         console.log('WebSocket Client Connected');
-
-        /*function sendNumber() {
-         if (client.readyState === client.OPEN) {
-         var number = Math.round(Math.random() * 0xFFFFFF);
-         client.send(number.toString());
-         setTimeout(sendNumber, 1000);
-         }
-         }
-
-         sendNumber();*/
     };
 
     client.onclose = function () {
-        console.log('echo-protocol Client Closed');
+        console.log('Client Closed');
     };
 
     client.onmessage = function (e) {
@@ -46,11 +36,11 @@ $(function () {
             pathCol.text(rowData.path);
             pathCol.appendTo(tableRow);
 
-            var sizeCol = $('<td>' + +'</td>');
+            var sizeCol = $('<td></td>');
             sizeCol.text(prettyBytes(rowData.size));
             sizeCol.appendTo(tableRow);
 
-            var timeCol = $('<td>' + +'</td>');
+            var timeCol = $('<td></td>');
             timeCol.text(dateFormat(new Date(rowData.time), 'yyyy-mm-dd hh:MM:ss TT'));
             timeCol.appendTo(tableRow);
 
@@ -60,6 +50,8 @@ $(function () {
             table.trigger('update');
             var sorting = [[3, 1]];
             table.trigger("sorton", [sorting]);
+
+            client.send(JSON.stringify({tag: 1}));
         }
     };
 
@@ -69,7 +61,7 @@ $(function () {
         client.send(JSON.stringify($('#form-credentials').serializeArray().reduce(function (obj, item) {
             obj[item.name] = item.value;
             return obj;
-        }, {})));
+        }, {tag: 0})));
     };
 
     $('.footer').append('<p>&copy; ' + new Date().getFullYear() + ' Rigoberto L. Salgado Reyes.</p>');

@@ -22,6 +22,15 @@ body {
     padding-right: 5px;
 }
 
+.table {
+    table-layout: fixed;
+    width: 100px;
+}
+
+.table td {
+    overflow: hidden;
+}
+
 .left {
     float: left;
 }

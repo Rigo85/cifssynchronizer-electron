@@ -1,5 +1,5 @@
 {
-  "name": "electron-app",
+  "name": "cifssynchronizer-electron",
   "version": "1.0.0",
   "description": "Frontend to show some shared files from some local websocket server",
   "main": "main.js",
