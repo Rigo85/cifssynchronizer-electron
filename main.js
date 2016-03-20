@@ -26,7 +26,6 @@ app.on('window-all-closed', function () {
 });
 
 app.on('ready', function () {
-    console.log(prc.connected);
     mainWindow = new BrowserWindow({width: 1000, height: 625, icon: './img/icon.png'});
 
     mainWindow.loadURL('file://' + __dirname + '/index.html');
@@ -50,16 +49,9 @@ app.on('ready', function () {
                     label: 'About',
                     click: function () {
                         require('electron').dialog.showMessageBox(mainWindow, {
-                            type: "info",
                             buttons: ['Ok'],
                             title: 'About dialog',
-                            message: 'Author: Rigoberto Leander Salgado Reyes <rlsalgado2006 @gmail.com>\n' +
-                            '\n' +
-                            'This program is licensed to you under the terms of version 3 of the' +
-                            'GNU Affero General Public License. This program is distributed WITHOUT' +
-                            'ANY EXPRESS OR IMPLIED WARRANTY, INCLUDING THOSE OF NON-INFRINGEMENT, ' +
-                            'MERCHANTABILITY OR FITNESS FOR A PARTICULAR PURPOSE. Please refer to the' +
-                            'AGPL (http:www.gnu.org/licenses/agpl-3.0.txt) for more details.'
+                            message: 'Author: Rigoberto Leander Salgado Reyes <rlsalgado2006 @gmail.com>\n\nThis program is licensed to you under the terms of version 3 of the GNU Affero General Public License. This program is distributed WITHOUT ANY EXPRESS OR IMPLIED WARRANTY, INCLUDING THOSE OF NON-INFRINGEMENT, MERCHANTABILITY OR FITNESS FOR A PARTICULAR PURPOSE. Please refer to the AGPL (http:www.gnu.org/licenses/agpl-3.0.txt) for more details.'
                         });
                     }
                 }
@@ -69,7 +61,7 @@ app.on('ready', function () {
 
     var menu = Menu.buildFromTemplate(application_menu);
 
-    mainWindow.webContents.openDevTools();
+    //mainWindow.webContents.openDevTools();
 
     Menu.setApplicationMenu(menu);
 

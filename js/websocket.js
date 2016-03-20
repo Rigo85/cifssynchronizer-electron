@@ -60,6 +60,8 @@ $(function () {
     document.querySelector('#form-credentials').onsubmit = function (e) {
         e.preventDefault();
 
+        $('.table tbody').empty();
+
         client.send(JSON.stringify($('#form-credentials').serializeArray().reduce(function (obj, item) {
             obj[item.name] = item.value;
             return obj;
